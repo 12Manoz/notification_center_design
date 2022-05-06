@@ -1,0 +1,1318 @@
+<!doctype html>
+<html><head><title>Design on Notification Center</title><meta charset="UTF-8"><link href="http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700,700italic|Roboto:400,700,700italic,400italic" rel="stylesheet" type="text/css"><style>/*
+ * Copyright 2014 Quip
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+body {
+    font-size: 15px;
+    color: #333;
+    background: white;
+    padding: 60px 95px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern";
+    font-kerning: normal;
+    -moz-font-feature-settings: "kern";
+    -webkit-font-feature-settings: "kern";
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+th {
+    font-family: Roboto, sans-serif;
+    font-weight: 700;
+    margin: 0;
+    margin-top: 1.25em;
+    margin-bottom: 0.75em;
+}
+
+h1 {
+    font-size: 35px;
+    line-height: 42px;
+}
+
+h1:first-child {
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 22px;
+    line-height: 22px;
+}
+
+h3 {
+    font-size: 18px;
+    line-height: 16px;
+}
+
+h4,
+h5,
+h6 {
+    font-size: 15px;
+    line-height: 14px;
+}
+h5 {
+    font-style: italic;
+}
+
+h6 {
+    font-weight: unset;
+    text-decoration: underline;
+}
+
+.capitalize-h3 h3 {
+    text-transform: uppercase;
+}
+
+/* Body text */
+body,
+p,
+ul,
+ol,
+td {
+    font-family: "Crimson Text", serif;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+blockquote,
+q {
+    display: block;
+    margin: 1em 0;
+    font-style: italic;
+}
+
+blockquote a,
+q a {
+    text-decoration: underline;
+}
+
+blockquote {
+    padding-left: 10px;
+    border-left: 4px solid #a6a6a6;
+}
+
+q {
+    color: #a6a6a6;
+    line-height: 40px;
+    font-size: 24px;
+    text-align: center;
+    quotes: none;
+}
+
+q a {
+    color: #a6a6a6;
+}
+
+code,
+pre {
+    font-family: Consolas, "Liberation Mono", Menlo, "Courier Prime Web",
+        Courier, monospace;
+    background: #f2f2f2;
+}
+
+code {
+    padding: 1px;
+    margin: 0 -1px;
+    border-radius: 3px;
+}
+
+pre {
+    display: block;
+    line-height: 20px;
+    text-shadow: 0 1px white;
+    padding: 5px 5px 5px 30px;
+    white-space: nowrap;
+    position: relative;
+    margin: 1em 0;
+}
+
+pre:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    border-left: solid 1px #dadada;
+}
+
+/* Text Alignment */
+.line {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: end;
+}
+
+/* Lists */
+div[data-section-style="5"],
+div[data-section-style="6"],
+div[data-section-style="7"] {
+    margin: 12px 0;
+}
+
+ul {
+    padding: 0 0 0 40px;
+}
+
+ul li {
+    margin-bottom: 0.4em;
+}
+
+/* Bulleted list */
+div[data-section-style="5"] ul {
+    list-style-type: disc;
+}
+div[data-section-style="5"] ul ul {
+    list-style-type: circle;
+}
+div[data-section-style="5"] ul ul ul {
+    list-style-type: square;
+}
+div[data-section-style="5"] ul ul ul ul {
+    list-style-type: disc;
+}
+div[data-section-style="5"] ul ul ul ul ul {
+    list-style-type: circle;
+}
+div[data-section-style="5"] ul ul ul ul ul ul {
+    list-style-type: square;
+}
+
+/* Numbered list */
+div[data-section-style="6"] ul {
+    list-style-type: decimal;
+}
+div[data-section-style="6"] ul ul {
+    list-style-type: lower-alpha;
+}
+div[data-section-style="6"] ul ul ul {
+    list-style-type: lower-roman;
+}
+div[data-section-style="6"] ul ul ul ul {
+    list-style-type: decimal;
+}
+div[data-section-style="6"] ul ul ul ul ul {
+    list-style-type: lower-alpha;
+}
+div[data-section-style="6"] ul ul ul ul ul ul {
+    list-style-type: lower-roman;
+}
+
+/* Checklist */
+div[data-section-style="7"] ul {
+    list-style-type: none;
+}
+
+div[data-section-style="7"] ul li:before {
+    content: "\2610";
+    position: absolute;
+    display: inline;
+    margin-right: 1.2em;
+    margin-left: -1.2em;
+}
+
+div[data-section-style="7"] ul li.parent:before {
+    content: "";
+}
+
+div[data-section-style="7"] ul li.checked {
+    text-decoration: line-through;
+}
+
+div[data-section-style="7"] ul li.checked:before {
+    content: "\2611";
+    text-decoration: none;
+}
+
+/* Tables */
+div[data-section-style="8"] {
+    margin: 12px 0;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: separate;
+    border: solid 1px #bbb;
+    table-layout: fixed;
+    position: relative;
+}
+
+table th,
+table td {
+    padding: 2px 2px 0;
+    min-width: 1.5em;
+    word-wrap: break-word;
+}
+
+table th {
+    border-bottom: 1px solid #c7cbd1;
+    background: #f2f2f2;
+    font-weight: bold;
+    vertical-align: bottom;
+    color: #3a4449;
+    text-align: center;
+}
+
+table td {
+    padding-top: 0;
+    border-left: 1px solid #c7cbd1;
+    border-top: 1px solid #c7cbd1;
+    vertical-align: top;
+}
+
+table td.bold {
+    font-weight: bold;
+}
+
+table td.italic {
+    font-style: italic;
+}
+
+table td.underline {
+    text-decoration: underline;
+}
+
+table td.strikethrough {
+    text-decoration: line-through;
+}
+
+table td.underline.strikethrough {
+    text-decoration: underline line-through;
+}
+
+table td:first-child {
+    border-left: hidden;
+}
+
+table tr:first-child td {
+    border-top: hidden;
+}
+
+/* Images */
+div[data-section-style="11"] {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div[data-section-style="11"][data-section-float="0"] {
+    clear: both;
+    text-align: center;
+}
+
+div[data-section-style="11"][data-section-float="1"] {
+    float: left;
+    clear: left;
+    margin-right: 20px;
+}
+
+div[data-section-style="11"][data-section-float="2"] {
+    float: right;
+    clear: right;
+    margin-left: 20px;
+}
+
+div[data-section-style="11"] img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+div[data-section-style="11"].show-border {
+    outline: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+hr {
+    width: 70px;
+    margin: 20px auto;
+}
+
+/* Apps */
+div[data-section-style="19"].placeholder {
+    margin: 0.8em auto;
+    padding: 4px 0;
+    display: block;
+    color: #3d87f5;
+    text-align: center;
+    border: 1px solid rgba(41, 182, 242, 0.2);
+    border-radius: 3px;
+    background: #e9f8fe;
+    font-family: Roboto, sans-serif;
+}
+
+div[data-section-style="19"].first-party-element {
+    margin-bottom: 10px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+div[data-section-style="19"].first-party-element.kanban {
+    background-image: url("https://quip-cdn.com/nK0hSyhsb4jrLIL2s5Ma-g");
+    height: 166px;
+}
+
+div[data-section-style="19"].first-party-element.calendar {
+    background-image: url("https://quip-cdn.com/OYujqLny03RILxcLIiyERg");
+    height: 244px;
+}
+
+div[data-section-style="19"].first-party-element.poll {
+    background-image: url("https://quip-cdn.com/fbIiFrcKGv__4NB7CBfxoA");
+    height: 116px;
+}
+
+div[data-section-style="19"].first-party-element.countdown {
+    background-image: url("https://quip-cdn.com/3bPhykD2dBei9sSjCWteTQ");
+    height: 96px;
+}
+
+div[data-section-style="19"].first-party-element.process_bar {
+    background-image: url("https://quip-cdn.com/ybQlHnHEIIBLog5rZmYs_w");
+    height: 36px;
+}
+
+div[data-section-style="19"].first-party-element.project_tracker {
+    background-image: url("https://quip-cdn.com/OFQU087b4Mxzz1ZaHwtjXA");
+    height: 164px;
+}
+
+div[data-section-style="19"] img {
+    margin: 0.5em;
+}
+
+div[data-section-style="19"] img.masked-image {
+    margin: 0;
+    transform-origin: top left;
+}
+
+div[data-section-style="19"] .image-mask {
+    position: relative;
+    overflow: hidden;
+}
+/*
+ * Copyright 2019 Quip
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+body {
+    counter-reset: indent0 indent1 indent2 indent3 indent4 indent5 indent6
+        indent7 indent8;
+}
+
+/* Numbered list */
+div[data-section-style="6"] {
+    counter-reset: indent0 indent1 indent2 indent3 indent4 indent5 indent6
+        indent7 indent8;
+}
+div[data-section-style="6"].list-numbering-continue {
+    counter-reset: none;
+}
+div[data-section-style="6"].list-numbering-restart-at {
+    counter-reset: indent0 var(--indent0) indent1 indent2 indent3 indent4
+        indent5 indent6 indent7 indent8;
+}
+div[data-section-style="6"] ul {
+    /* indent0 is not reset since it is shared across the div elements */
+    list-style-type: none !important;
+}
+div[data-section-style="6"] ul ul {
+    counter-reset: indent1;
+}
+div[data-section-style="6"] ul ul ul {
+    counter-reset: indent2;
+}
+div[data-section-style="6"] ul ul ul ul {
+    counter-reset: indent3;
+}
+div[data-section-style="6"] ul ul ul ul ul {
+    counter-reset: indent4;
+}
+div[data-section-style="6"] ul ul ul ul ul ul {
+    counter-reset: indent5;
+}
+div[data-section-style="6"] ul li {
+    counter-increment: indent0;
+}
+div[data-section-style="6"] ul ul li {
+    counter-increment: indent1;
+}
+div[data-section-style="6"] ul ul ul li {
+    counter-increment: indent2;
+}
+div[data-section-style="6"] ul ul ul ul li {
+    counter-increment: indent3;
+}
+div[data-section-style="6"] ul ul ul ul ul li {
+    counter-increment: indent4;
+}
+div[data-section-style="6"] ul ul ul ul ul ul li {
+    counter-increment: indent5;
+}
+div[data-section-style="6"] ul li:before {
+    content: counter(indent0, decimal) ". ";
+}
+div[data-section-style="6"] ul ul li:before {
+    content: counter(indent1, lower-alpha) ". ";
+}
+div[data-section-style="6"] ul ul ul li:before {
+    content: counter(indent2, lower-roman) ". ";
+}
+div[data-section-style="6"] ul ul ul ul li:before {
+    content: counter(indent3, decimal) ". ";
+}
+div[data-section-style="6"] ul ul ul ul ul li:before {
+    content: counter(indent4, lower-alpha) ". ";
+}
+div[data-section-style="6"] ul ul ul ul ul ul li:before {
+    content: counter(indent5, lower-roman) ". ";
+}
+</style></head><body><h2 id='temp:C:IPdb1106e4a81486483b47f5feb7'>Design on Notification Center </h2>
+
+<br/>
+
+<h3 id='temp:C:IPd811f13b86c53d015a046b09c9'>Requirement: </h3>
+
+<br/>
+
+Design notification center : Send notification to user based on their Support Group and Product access. We will send the notifications when:- <br/>
+
+1. the Question will have it’s status changed to “PENDING” or a new Question will be inserted with “Pending” status.<br/>
+
+*2. the score is changed. <br/>
+
+<br/>
+
+*For score, we will consider environment score, as the change can be associated with subsequent changes to pillar or overall scores. This will avoid duplication notifications. We have determined that environment score is the most consistent low level score and hence it makes sense to send notifications based on that parameter.<br/>
+
+<br/>
+
+<h3 id='temp:C:IPd28dd8d32c60d642274f70074f'>Resources: There will be 3 lambda’s and 1 new DynamoDB table. There will be two new endpoints created on API gateway’s (Both BFF and Backend). </h3>
+
+<span style="color:#218118" textcolor="#218118">*Additional lambda scope is to insert/ update notification-map in notification center table. Notification map is mapping of users to support group for a product. <b>Remark</b>-  Discussions Pending.</span><br/>
+
+<br/>
+
+Lambda:<br/>
+
+<div class="" data-section-style='5' style=""><ul id='temp:C:IPda33ea60e56663db0f7524f348'><li id='temp:C:IPd70505f1d0e30b87b7a7513cd6' class='' value='1'>iuconfia_productscorestreamconsumer 
+
+<br/></li><li id='temp:C:IPd87bf515baed4d36137a3db96f' class=''>iuconfia_getnotifications
+
+<br/></li><li id='temp:C:IPda1fbf88d1b49fd58db5d2310f' class=''>iuconfia_updatenotificationstatus 
+
+<br/></li></ul></div><br/>
+
+Dynamodb:  <span style="color:#218118" textcolor="#218118"><b>tbff2022_notification_centro</b></span> : schema defined below in <a href="https://quip-amazon.com/MfI9AlhmXPpa/Design-on-Notification-Center#temp:C:IPdbffc27938ffa109aa967bebc7">here</a> <br/>
+
+<br/>
+
+API gateway : <br/>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPd1bc261f5257259ea01d1fc341'><li id='temp:C:IPd87f8da379e17148d46884ae55' class='' value='1'>Get notification (Get) <span style="color:#218118" textcolor="#218118">/notifications</span>
+
+<br/></li><li id='temp:C:IPd1cd916a1e52ba9717a0081765' class=''>Post Update Notification <span style="color:#218118" textcolor="#218118">/notifications</span> (post)
+
+<br/></li><li id='temp:C:IPdd3b6887e109bbff0aa828db39' class=''>Amazon API gateway integration with lambda to get notifications and update notifications
+
+<br/></li></ul></div><h3 id='temp:C:IPdcfd9dea095973ac16cc78634a'>Arch Diagram:</h3>
+
+<div data-section-style='11' style='max-width:100%' class=''><img src='https://quip-amazon.com/blob/IPd9AA28IUC/FQ1KbbHn3pC8Sq025VanBA' id='temp:C:IPda2ff6fc33f495ba8a9d102882' width='800' height='472' alt="image.png"></img></div><br/>
+
+<h2 id='temp:C:IPd066b11f9dbe29e02f20cf4ac7'><b> </b>Work Item Description:</h2>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPdf3da1da6291c43fcab519e956'><li id='temp:C:IPddf846bb3e40e4a0292f79d019' class='' value='1'>Creation of DynamoDB Stream to capture events - This is the functionality to capture DynamoDB item changes using streams for following two cases:
+
+<br/></li></ul></div>a. When the item is updated/inserted for entity = “product”. This is to handle any questions that are having compliance = false and are seen as “pending” on UI screen.<br/>
+
+b. When the item for score#product is updated for cod_chav_filg = “&lt;ENV&gt;#ALL#LATEST. This to capture score changes on a product per environment.<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<u><b>Sample product#questionid Data from DynamoDB</b></u><br><br/>
+
+<div data-section-style='11' style='max-width:100%' class=''><img src='https://quip-amazon.com/blob/IPd9AA28IUC/MG_D__f_1bBPISe9jUQZfg' id='temp:C:IPde34d5de3c3e0aab233780fd98' width='800' height='415' alt="Screen Shot 2022-05-03 at 9.48.37 AM.png"></img></div><br/>
+
+<u><b>Sample Score Data from DynamoDB</b></u><br/>
+
+<div data-section-style='11' style='max-width:100%' class=''><img src='https://quip-amazon.com/blob/IPd9AA28IUC/WIMM1R5KT3M30pWGb9FSwA' id='temp:C:IPd04dcc3a90062177d08a361145' width='800' height='309' alt="Screen Shot 2022-05-05 at 2.08.17 PM.png"></img></div><br/>
+
+<u><b>Filter for stream:</b></u><br/>
+
+<pre id='temp:C:IPd5f960e222a4e90e0374725246'>FilterCriteria:<br>        Filters:<br>          - Pattern: ‘{ “eventName”: [“INSERT”], “dynamodb”: { “NewImage”: { “entity”: { “S”: [“Product”] }, “cod_chav_filg_locl”: { “S”: [{“prefix”: “LATEST#“}] },“compliant”: { “BOOL”: [false] } } } }’<br>          - Pattern: ‘{ “eventName”: [“MODIFY”], “dynamodb”: { “NewImage”: { “entity”: { “S”: [“Product”] }, “cod_chav_filg_locl”: { “S”: [{“prefix”: “LATEST#“}] },  “compliant”: { “BOOL”: [false] } }, “OldImage”: { “compliant”: { “BOOL”: [true] } } } }’<br>          - Pattern: ‘{ “eventName”: [“MODIFY”], “dynamodb”: { “NewImage”: { “entity”: { “S”: [“score”] }, “cod_chav_patc”: { “S”: [{“prefix”: “score#“}]}, "cod_chav_filg":{"S": <code>[ { "anything-but": { "prefix": "ALE#" } } ]</code>},“cod_chav_filg_locl”: { “S”: [{“prefix”: “LATEST#ALL#“}] } } }, "OldImage": {"score":  [ { "numeric": [ "&gt;", 0, "&lt;=", 100 ] } ]} }’</pre>
+
+Lambda receives event for above event mapping filter pattern <br/>
+
+<br/>
+
+<h2 id='temp:C:IPd21dcfa971e6c4b90838cb6a91'><b>1. Lambda: iuconfia_notificationeventcapture</b></h2>
+
+<h3 id='temp:C:IPd65746f26fca3fe778c2f7e9da'>a. capture stream events </h3>
+
+Stream events captured for<br/>
+
+<br/>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPd472181231ba120895a9fee31d'><li id='temp:C:IPd41d6d45ccea88d8eaa6de5d6a' class='parent' value='1'>Product compliance status pending:  
+
+<br/></li><ul><li id='temp:C:IPd4901099db3e835be5b402b406' class=''>Lambda receives event for entity product, all DynamoDB streams will send old and new image of item.
+
+<br/></li><li id='temp:C:IPd5fe46f520846be599abe5679c' class=''>Sample item is shown in following table 
+
+<br/></li><li id='temp:C:IPdd38f28d9a7807ca9b17bbdbd9' class=''>Parse item (received as new image).  Attributes cod_chav_patc is product name(productid), parse questionid from attribute cod_chav_filg, compliance value is always false for new item (i.e. insert or update). 
+
+<br/></li><li id='temp:C:IPdbc136e8776f22048a9ca87cdb' class=''>For insert event there is no old image hence no old compliance value. For update old compliance value = True and new compliance value is False (as we capture transition from compliance to pending i.e. True to False)
+
+<br/></li><li id='temp:C:IPdf876a75ed9ebfda7bf09398d4' class=''>We get productid = productname, questionid= questionid, old_compliance_value and new_compliance_value after this step. 
+
+<br/></li></ul></ul></div><br/>
+
+<u><b>Sample item for product entity</b></u><br/>
+
+<div data-section-style='13'><table id='temp:C:IPdcb775230bfa787c3ec59889ba' title='Sheet6' style='width: 53.6em'><tbody><tr id='temp:C:IPd7dcac1ad374056e771b2c4a55'><td id='temp:s:temp:C:IPd7dcac1ad374056e771b2c4a55;temp:C:IPdb14f69b588b6df45215649e7e' style=''>cod_chav_patc
+
+<br/></td><td id='temp:s:temp:C:IPd7dcac1ad374056e771b2c4a55;temp:C:IPd021d4bdb142d484bd2058c8b0' style=''>cod_chav_filg
+
+<br/></td><td id='temp:s:temp:C:IPd7dcac1ad374056e771b2c4a55;temp:C:IPd08c4413648f687d9f378dc885' style=''>cod_chav_filg_locl
+
+<br/></td><td id='temp:s:temp:C:IPd7dcac1ad374056e771b2c4a55;temp:C:IPde61664b1315d00f771029466a' style=''>compliant
+
+<br/></td><td id='temp:s:temp:C:IPd7dcac1ad374056e771b2c4a55;temp:C:IPd440448d6db2647e8471c81334' style=''>entity
+
+<br/></td><td id='temp:s:temp:C:IPd7dcac1ad374056e771b2c4a55;temp:C:IPd0ca86682814336789342d97d2' style=''>event_id
+
+<br/></td><td id='temp:s:temp:C:IPd7dcac1ad374056e771b2c4a55;temp:C:IPd1ad8000edd9eae0de164d9ade' style=''>event_time
+
+<br/></td><td id='temp:s:temp:C:IPd7dcac1ad374056e771b2c4a55;temp:C:IPd67bdf629f0af18c8a3bb863df' style=''>pillar
+
+<br/></td><td id='temp:s:temp:C:IPd7dcac1ad374056e771b2c4a55;temp:C:IPdecc4f0ec761f3fc4e78fcc4cf' style=''>resource
+
+<br/></td><td id='temp:s:temp:C:IPd7dcac1ad374056e771b2c4a55;temp:C:IPd439b35bb4bdad97d666363844' style=''>validation_time 
+
+<br/></td></tr><tr id='temp:C:IPd81e90224dba223d17dc58c88e'><td id='temp:s:temp:C:IPd81e90224dba223d17dc58c88e;temp:C:IPdb14f69b588b6df45215649e7e' style=''>sandboxsre
+
+<br/></td><td id='temp:s:temp:C:IPd81e90224dba223d17dc58c88e;temp:C:IPd021d4bdb142d484bd2058c8b0' style=''>PRRCON38#dev#LATEST
+
+<br/></td><td id='temp:s:temp:C:IPd81e90224dba223d17dc58c88e;temp:C:IPd08c4413648f687d9f378dc885' style=''>LATEST#REL#PRRCON38#dev
+
+<br/></td><td id='temp:s:temp:C:IPd81e90224dba223d17dc58c88e;temp:C:IPde61664b1315d00f771029466a' style=''>FALSE
+
+<br/></td><td id='temp:s:temp:C:IPd81e90224dba223d17dc58c88e;temp:C:IPd440448d6db2647e8471c81334' style=''>Prodcut
+
+<br/></td><td id='temp:s:temp:C:IPd81e90224dba223d17dc58c88e;temp:C:IPd0ca86682814336789342d97d2' style=''>some_has_value
+
+<br/></td><td id='temp:s:temp:C:IPd81e90224dba223d17dc58c88e;temp:C:IPd1ad8000edd9eae0de164d9ade' style=''>123232321
+
+<br/></td><td id='temp:s:temp:C:IPd81e90224dba223d17dc58c88e;temp:C:IPd67bdf629f0af18c8a3bb863df' style=''>REL
+
+<br/></td><td id='temp:s:temp:C:IPd81e90224dba223d17dc58c88e;temp:C:IPdecc4f0ec761f3fc4e78fcc4cf' style=''>arn of resource
+
+<br/></td><td id='temp:s:temp:C:IPd81e90224dba223d17dc58c88e;temp:C:IPd439b35bb4bdad97d666363844' style=''>1323415623
+
+<br/></td></tr></tbody></table></div><br/>
+
+<div style="--indent0: 2" data-section-style='6' class="list-numbering-restart-at"><ul id='temp:C:IPd45c5ab086654702a690d321c1'><li id='temp:C:IPdce072d32c63591f71f7e9c835' class='parent' value='1'>Score update event:
+
+<br/></li><ul><li id='temp:C:IPd2e15e5b2f51745eb30a28b1d8' class=''>For score event we capture score update for each environment (no ALE acronym for aggregated score of all environment) and all pillar type (pillars refer to AWS well architected pillars).
+
+<br/></li><li id='temp:C:IPd79013aab6fea1775fae9e5d5e' class=''>Each event will give old image and new image of score update. 
+
+<br/></li><li id='temp:C:IPd9d2b045cacf51f9a26a9d99ce' class=''>Sample item for score entity is shown in following table.
+
+<br/></li><li id='temp:C:IPd4342fe97e081fdb368699f568' class='parent'>Parse new item image attributes  as below
+
+<br/></li><ul><li id='temp:C:IPd39f2ec82c0b8c97450818a8de' class=''>cod_chav_patc, gives product id, <i> product_name =  item[cod_chav_patc].split(“#”)[1]</i>
+
+<br/></li><li id='temp:C:IPd829f816a404bf38ccd84113f7' class=''>environment, attribute cod_chav_filg gives environment value, <i> env = itme[cod_chav_filg].split(“#”)[0]</i>
+
+<br/></li><li id='temp:C:IPdca7464bb0f2469f1bc0b32cd7' class=''>pillar, attribute cod_chav_filg gives pillar information, <i>pillar= item[cod_chav_filg].split(“#”)[1]</i>
+
+<br/></li><li id='temp:C:IPde88b070bd9d765560a0e01be0' class=''>new_score, attribute score 
+
+<br/></li></ul><li id='temp:C:IPd8c257db3f8969eb6854d5307d' class=''>Parse old image attribute to get old score.
+
+<br/></li><li id='temp:C:IPd7217b1afa2a47c0991fb002b4' class=''>We get, product_name, pillar, env as environment, new_score, old_score. 
+
+<br/></li></ul></ul></div><br/>
+
+<u><b>Sample item for entity=score </b></u><br/>
+
+<div data-section-style='13'><table id='temp:C:IPdd10732310868974154213efa8' title='Sheet3' style='width: 54em'><tbody><tr id='temp:C:IPdef914925808663e1a5b317c07'><td id='temp:s:temp:C:IPdef914925808663e1a5b317c07;temp:C:IPd3d6ef8b9b8f10da5075fa5498' style=''>cod_chav_patc
+
+<br/></td><td id='temp:s:temp:C:IPdef914925808663e1a5b317c07;temp:C:IPd5da17d546c9e634547824a268' style=''>cod_chav_filg
+
+<br/></td><td id='temp:s:temp:C:IPdef914925808663e1a5b317c07;temp:C:IPdda3dfa1278601b1266daa33c5' style=''>cod_chav_filg_locl
+
+<br/></td><td id='temp:s:temp:C:IPdef914925808663e1a5b317c07;temp:C:IPd7443cdc61285071164773639c' style=''>entity
+
+<br/></td><td id='temp:s:temp:C:IPdef914925808663e1a5b317c07;temp:C:IPd5ed5920e7c81d9a49672525f3' style=''>not_ok_questions
+
+<br/></td><td id='temp:s:temp:C:IPdef914925808663e1a5b317c07;temp:C:IPdf959dd796c94917675099cb7c' style=''>event_time
+
+<br/></td><td id='temp:s:temp:C:IPdef914925808663e1a5b317c07;temp:C:IPd6a8744d0c411499bf71ea9b89' style=''>ok_questions
+
+<br/></td><td id='temp:s:temp:C:IPdef914925808663e1a5b317c07;temp:C:IPdb9a790e13df44d3ee01e8232d' style=''>score
+
+<br/></td><td id='temp:s:temp:C:IPdef914925808663e1a5b317c07;temp:C:IPdae0a2ce438b8b9b0344231cbf' style=''>validation_time
+
+<br/></td></tr><tr id='temp:C:IPd7c7a4ea2d82107f523c5bfc62'><td id='temp:s:temp:C:IPd7c7a4ea2d82107f523c5bfc62;temp:C:IPd3d6ef8b9b8f10da5075fa5498' style=''>score#product_name
+
+<br/></td><td id='temp:s:temp:C:IPd7c7a4ea2d82107f523c5bfc62;temp:C:IPd5da17d546c9e634547824a268' style=''>DEV#ALL#LATEST
+
+<br/></td><td id='temp:s:temp:C:IPd7c7a4ea2d82107f523c5bfc62;temp:C:IPdda3dfa1278601b1266daa33c5' style=''>LATEST#ALL#DEV
+
+<br/></td><td id='temp:s:temp:C:IPd7c7a4ea2d82107f523c5bfc62;temp:C:IPd7443cdc61285071164773639c' style=''>score
+
+<br/></td><td id='temp:s:temp:C:IPd7c7a4ea2d82107f523c5bfc62;temp:C:IPd5ed5920e7c81d9a49672525f3' style=''>9
+
+<br/></td><td id='temp:s:temp:C:IPd7c7a4ea2d82107f523c5bfc62;temp:C:IPdf959dd796c94917675099cb7c' style=''>1.23E+16
+
+<br/></td><td id='temp:s:temp:C:IPd7c7a4ea2d82107f523c5bfc62;temp:C:IPd6a8744d0c411499bf71ea9b89' style=''>3
+
+<br/></td><td id='temp:s:temp:C:IPd7c7a4ea2d82107f523c5bfc62;temp:C:IPdb9a790e13df44d3ee01e8232d' style=''>24
+
+<br/></td><td id='temp:s:temp:C:IPd7c7a4ea2d82107f523c5bfc62;temp:C:IPdae0a2ce438b8b9b0344231cbf' style=''>
+
+<br/></td></tr><tr id='temp:C:IPd931b65f475fd35c470cbc5373'><td id='temp:s:temp:C:IPd931b65f475fd35c470cbc5373;temp:C:IPd3d6ef8b9b8f10da5075fa5498' style=''>score#product_name
+
+<br/></td><td id='temp:s:temp:C:IPd931b65f475fd35c470cbc5373;temp:C:IPd5da17d546c9e634547824a268' style=''>HOM#ALL#LATEST
+
+<br/></td><td id='temp:s:temp:C:IPd931b65f475fd35c470cbc5373;temp:C:IPdda3dfa1278601b1266daa33c5' style=''>LATEST#ALL#HOM
+
+<br/></td><td id='temp:s:temp:C:IPd931b65f475fd35c470cbc5373;temp:C:IPd7443cdc61285071164773639c' style=''>score
+
+<br/></td><td id='temp:s:temp:C:IPd931b65f475fd35c470cbc5373;temp:C:IPd5ed5920e7c81d9a49672525f3' style=''>9
+
+<br/></td><td id='temp:s:temp:C:IPd931b65f475fd35c470cbc5373;temp:C:IPdf959dd796c94917675099cb7c' style=''>1.23E+16
+
+<br/></td><td id='temp:s:temp:C:IPd931b65f475fd35c470cbc5373;temp:C:IPd6a8744d0c411499bf71ea9b89' style=''>3
+
+<br/></td><td id='temp:s:temp:C:IPd931b65f475fd35c470cbc5373;temp:C:IPdb9a790e13df44d3ee01e8232d' style=''>24
+
+<br/></td><td id='temp:s:temp:C:IPd931b65f475fd35c470cbc5373;temp:C:IPdae0a2ce438b8b9b0344231cbf' style=''>
+
+<br/></td></tr><tr id='temp:C:IPd11a06126622c66734be58f425'><td id='temp:s:temp:C:IPd11a06126622c66734be58f425;temp:C:IPd3d6ef8b9b8f10da5075fa5498' style=''>score#product_name
+
+<br/></td><td id='temp:s:temp:C:IPd11a06126622c66734be58f425;temp:C:IPd5da17d546c9e634547824a268' style=''>PROD#ALL#LATEST
+
+<br/></td><td id='temp:s:temp:C:IPd11a06126622c66734be58f425;temp:C:IPdda3dfa1278601b1266daa33c5' style=''>LATEST#ALL#PROD
+
+<br/></td><td id='temp:s:temp:C:IPd11a06126622c66734be58f425;temp:C:IPd7443cdc61285071164773639c' style=''>score
+
+<br/></td><td id='temp:s:temp:C:IPd11a06126622c66734be58f425;temp:C:IPd5ed5920e7c81d9a49672525f3' style=''>9
+
+<br/></td><td id='temp:s:temp:C:IPd11a06126622c66734be58f425;temp:C:IPdf959dd796c94917675099cb7c' style=''>1.23E+16
+
+<br/></td><td id='temp:s:temp:C:IPd11a06126622c66734be58f425;temp:C:IPd6a8744d0c411499bf71ea9b89' style=''>3
+
+<br/></td><td id='temp:s:temp:C:IPd11a06126622c66734be58f425;temp:C:IPdb9a790e13df44d3ee01e8232d' style=''>24
+
+<br/></td><td id='temp:s:temp:C:IPd11a06126622c66734be58f425;temp:C:IPdae0a2ce438b8b9b0344231cbf' style=''>
+
+<br/></td></tr><tr id='temp:C:IPd46c345e42a6ec3f13db032ac0'><td id='temp:s:temp:C:IPd46c345e42a6ec3f13db032ac0;temp:C:IPd3d6ef8b9b8f10da5075fa5498' style=''>score#product_name
+
+<br/></td><td id='temp:s:temp:C:IPd46c345e42a6ec3f13db032ac0;temp:C:IPd5da17d546c9e634547824a268' style=''>TOO#ALL#LATEST
+
+<br/></td><td id='temp:s:temp:C:IPd46c345e42a6ec3f13db032ac0;temp:C:IPdda3dfa1278601b1266daa33c5' style=''>LATEST#ALL#TOO
+
+<br/></td><td id='temp:s:temp:C:IPd46c345e42a6ec3f13db032ac0;temp:C:IPd7443cdc61285071164773639c' style=''>score
+
+<br/></td><td id='temp:s:temp:C:IPd46c345e42a6ec3f13db032ac0;temp:C:IPd5ed5920e7c81d9a49672525f3' style=''>9
+
+<br/></td><td id='temp:s:temp:C:IPd46c345e42a6ec3f13db032ac0;temp:C:IPdf959dd796c94917675099cb7c' style=''>1.23E+16
+
+<br/></td><td id='temp:s:temp:C:IPd46c345e42a6ec3f13db032ac0;temp:C:IPd6a8744d0c411499bf71ea9b89' style=''>3
+
+<br/></td><td id='temp:s:temp:C:IPd46c345e42a6ec3f13db032ac0;temp:C:IPdb9a790e13df44d3ee01e8232d' style=''>24
+
+<br/></td><td id='temp:s:temp:C:IPd46c345e42a6ec3f13db032ac0;temp:C:IPdae0a2ce438b8b9b0344231cbf' style=''>
+
+<br/></td></tr></tbody></table></div><br/>
+
+Once values are retrieved from the event, next step is to insert relevant values to notification center table.<br/>
+
+<h3 id='temp:C:IPd16c17a84891540ac32432ebf5'>b. Inserting user information to notification center table : (8 hours)</h3>
+
+The first step will be to find which users notifications belong to. This is done by querying the notification map partition in notification center table.<br/>
+
+<br/>
+
+Notification map partition in notification center table (<span style="color:#218118" textcolor="#218118"><b>tbff2022_notification_centro) </b></span>stores user id list for product. There is unique entry for combination of productid#supportgroup in notificationmap partition. <br/>
+
+<br/>
+
+The notification map partition is as follows<br/>
+
+<br/>
+
+<u><b>Sample item for notificationmap partition in notification center table</b></u><br/>
+
+<br/>
+
+<div data-section-style='13'><table id='temp:C:IPdca0d3df2e7cd6a6264df769df' title='Sheet1' style='width: 50.6em'><tbody><tr id='temp:C:IPda3eef1cfd0ae9276d3a61318c'><td id='temp:s:temp:C:IPda3eef1cfd0ae9276d3a61318c;temp:C:IPdc1a92c2d9823c3689d8a6449c' style=''>code_chav_patc
+
+<br/></td><td id='temp:s:temp:C:IPda3eef1cfd0ae9276d3a61318c;temp:C:IPd262ff4f1fc334a47e48735baa' style=''>cod_ordernar_chav
+
+<br/></td><td id='temp:s:temp:C:IPda3eef1cfd0ae9276d3a61318c;temp:C:IPdd57d3f94182e5de14fbe767d2' style=''>status_ordernar
+
+<br/></td><td id='temp:s:temp:C:IPda3eef1cfd0ae9276d3a61318c;temp:C:IPdf3b09644e0cffab99e518253d' style=''>tipo_ordernar
+
+<br/></td><td id='temp:s:temp:C:IPda3eef1cfd0ae9276d3a61318c;temp:C:IPd37390c61b812c1f3031953fea' style=''>userlist 
+
+<br/></td><td id='temp:s:temp:C:IPda3eef1cfd0ae9276d3a61318c;temp:C:IPd7d527244d9e643fabaef5d68f' style=''>
+
+<br/></td></tr><tr id='temp:C:IPde1c59571680d1e6541dc35142'><td id='temp:s:temp:C:IPde1c59571680d1e6541dc35142;temp:C:IPdc1a92c2d9823c3689d8a6449c' style=''>notificationmap
+
+<br/></td><td id='temp:s:temp:C:IPde1c59571680d1e6541dc35142;temp:C:IPd262ff4f1fc334a47e48735baa' style=''>productid1#supportgroup1
+
+<br/></td><td id='temp:s:temp:C:IPde1c59571680d1e6541dc35142;temp:C:IPdd57d3f94182e5de14fbe767d2' style=''>supportgroup#productid
+
+<br/></td><td id='temp:s:temp:C:IPde1c59571680d1e6541dc35142;temp:C:IPdf3b09644e0cffab99e518253d' style=''>time#supportgroupid#productid
+
+<br/></td><td id='temp:s:temp:C:IPde1c59571680d1e6541dc35142;temp:C:IPd37390c61b812c1f3031953fea' style=''>[u1,u2,u3]
+
+<br/></td><td id='temp:s:temp:C:IPde1c59571680d1e6541dc35142;temp:C:IPd7d527244d9e643fabaef5d68f' style=''>
+
+<br/></td></tr><tr id='temp:C:IPd2dec3ed918b6b0d54d13a8aab'><td id='temp:s:temp:C:IPd2dec3ed918b6b0d54d13a8aab;temp:C:IPdc1a92c2d9823c3689d8a6449c' style=''>notiifcationmap
+
+<br/></td><td id='temp:s:temp:C:IPd2dec3ed918b6b0d54d13a8aab;temp:C:IPd262ff4f1fc334a47e48735baa' style=''>productid2#sg2
+
+<br/></td><td id='temp:s:temp:C:IPd2dec3ed918b6b0d54d13a8aab;temp:C:IPdd57d3f94182e5de14fbe767d2' style=''>supportgroup#productid
+
+<br/></td><td id='temp:s:temp:C:IPd2dec3ed918b6b0d54d13a8aab;temp:C:IPdf3b09644e0cffab99e518253d' style=''>time#supportgroupid#productid
+
+<br/></td><td id='temp:s:temp:C:IPd2dec3ed918b6b0d54d13a8aab;temp:C:IPd37390c61b812c1f3031953fea' style=''>[u1,u5]
+
+<br/></td><td id='temp:s:temp:C:IPd2dec3ed918b6b0d54d13a8aab;temp:C:IPd7d527244d9e643fabaef5d68f' style=''>
+
+<br/></td></tr><tr id='temp:C:IPd87ffb215b2c64cdbbd34ba929'><td id='temp:s:temp:C:IPd87ffb215b2c64cdbbd34ba929;temp:C:IPdc1a92c2d9823c3689d8a6449c' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd87ffb215b2c64cdbbd34ba929;temp:C:IPd262ff4f1fc334a47e48735baa' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd87ffb215b2c64cdbbd34ba929;temp:C:IPdd57d3f94182e5de14fbe767d2' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd87ffb215b2c64cdbbd34ba929;temp:C:IPdf3b09644e0cffab99e518253d' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd87ffb215b2c64cdbbd34ba929;temp:C:IPd37390c61b812c1f3031953fea' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd87ffb215b2c64cdbbd34ba929;temp:C:IPd7d527244d9e643fabaef5d68f' style=''>
+
+<br/></td></tr><tr id='temp:C:IPd7109763ef0e9438280fe838b3'><td id='temp:s:temp:C:IPd7109763ef0e9438280fe838b3;temp:C:IPdc1a92c2d9823c3689d8a6449c' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd7109763ef0e9438280fe838b3;temp:C:IPd262ff4f1fc334a47e48735baa' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd7109763ef0e9438280fe838b3;temp:C:IPdd57d3f94182e5de14fbe767d2' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd7109763ef0e9438280fe838b3;temp:C:IPdf3b09644e0cffab99e518253d' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd7109763ef0e9438280fe838b3;temp:C:IPd37390c61b812c1f3031953fea' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd7109763ef0e9438280fe838b3;temp:C:IPd7d527244d9e643fabaef5d68f' style=''>
+
+<br/></td></tr><tr id='temp:C:IPd6ff57dc1eae04622a54208909'><td id='temp:s:temp:C:IPd6ff57dc1eae04622a54208909;temp:C:IPdc1a92c2d9823c3689d8a6449c' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd6ff57dc1eae04622a54208909;temp:C:IPd262ff4f1fc334a47e48735baa' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd6ff57dc1eae04622a54208909;temp:C:IPdd57d3f94182e5de14fbe767d2' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd6ff57dc1eae04622a54208909;temp:C:IPdf3b09644e0cffab99e518253d' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd6ff57dc1eae04622a54208909;temp:C:IPd37390c61b812c1f3031953fea' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd6ff57dc1eae04622a54208909;temp:C:IPd7d527244d9e643fabaef5d68f' style=''>
+
+<br/></td></tr></tbody></table></div>Steps: <br/>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPd8e63cdcd954d932009150f7f0'><li id='temp:C:IPda333f327f74849f4b2a365725' class='' value='1'>Query table for partition notificationmap.
+
+<br/></li><li id='temp:C:IPd6cdead6bcbf86ea04e3fc2007' class=''>We will get product id from the notification events.. Product name or id is used to query primary index of notification center table on hash key cod_chav_patc = notificationmap, sort key cod_ordernar_key = begins_with(productid)
+
+<br/></li><li id='temp:C:IPdb63284de8a4802ecce9e58ce0' class=''>For each user, insert the record for that notification type in next step. 
+
+<br/></li></ul></div><b><u><i>Important consideration:</i></u></b><br/>
+
+<b>Notificationmap</b> is stored in Notification Center table (<b><span style="color:#218118" textcolor="#218118">tbff2022_notification_centro</span><u><i>).</i></u></b><br/>
+
+This table has two additional local secondary index {attributes: status_ordernar , tipo_ordernar} these attributes cannot be empty.<br/>
+
+Hence we need to add unique value for these attributes we will add <br/>
+
+{status_ordernar: LATEST#ProductID#Group,  tipo_ordenar: LATEST#Group#prodcutid}. <br/>
+
+<br/>
+
+<br/>
+
+<h3 id='temp:C:IPd2e386e693a3d7a8c283cdb630'>c. Logic for score and product event notification: </h3>
+
+In this step we use data obtained from previous steps i.e. a and b to prepare data and insert into notification center table.<br/>
+
+<br/>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPd2a407520fc9551529f6395c2c'><li id='temp:C:IPd947a7825f45f0d958a14b3007' class='' value='1'>Loops and Iterate through list of users obtained in previous step.
+
+<br/></li><li id='temp:C:IPd157b66817860a61b0114b7bec' class=''>For each user, we can get two types of events based on entity i.e. score or question. 
+
+<br/></li><li id='temp:C:IPda01c57fb104f16de4ec422f1f' class=''>In each loop, i.e. for each user we prepare JSON to insert into notification center table.
+
+<br/></li><li id='temp:C:IPd2854d5e71a80a12c3e41f672a' class='parent'>For Score entity type, JSON would have following values:
+
+<br/></li><ul><li id='temp:C:IPd021ab8adb955f48957f156557' class=''>cod_chav_patc : u1 , this is user id data
+
+<br/></li><li id='temp:C:IPd06f471a17b0ff6743a3857271' class=''>cod_ordenar_chav: all#time  (time = epoc time)  : this is for all_events_time
+
+<br/></li><li id='temp:C:IPde2d016f756404fcc0539879e4' class=''>status_ordenar: unread#time (time used in cod_ordernar_chav): this is for read or unread status with time 
+
+<br/></li><li id='temp:C:IPda7ea5aeb5a445f56c8a44f19f' class=''>tipo_ordernar: score#unread#time (same time as used in attribute cod_ordernar_chav)
+
+<br/></li><li id='temp:C:IPd79428d3c2284079dad2b5d063' class=''>env: environment
+
+<br/></li><li id='temp:C:IPdad8b725cbdd292637c67a62a6' class=''>pillar: pillar_information
+
+<br/></li><li id='temp:C:IPdd0fa2f4d75a9334ae377ec4e7' class=''>old_score: old_score
+
+<br/></li><li id='temp:C:IPd2ebf97e17931a1a0cd413b43e' class=''>new_score: new_score
+
+<br/></li><li id='temp:C:IPde28febbb4539506494d80e8a8' class=''>event_type: score
+
+<br/></li></ul><li id='temp:C:IPdca9452b23e4378e11a4aa8772' class='parent'>For Question entity type, JSON would have following values:
+
+<br/></li><ul><li id='temp:C:IPd53bed1be5a9a9f1e3034968a9' class=''>cod_chav_patc : u1 , this is user id data
+
+<br/></li><li id='temp:C:IPd43189d33d68948ec207605a24' class=''>cod_ordenar_chav: all#time  (time = epoc time)  : this is for all_events_time
+
+<br/></li><li id='temp:C:IPd78fcfff4b7bce5d54f7179186' class=''>status_ordenar: unread#time (time used in cod_ordernar_chav): this is for read or unread status with time 
+
+<br/></li><li id='temp:C:IPdab39f7db1e1b0301051ce883a' class=''>tipo_ordernar: question#unread#time (same time as used in attribute cod_ordernar_chav)
+
+<br/></li><li id='temp:C:IPd47b0bb63f8046c50dc785088c' class=''>env: environment
+
+<br/></li><li id='temp:C:IPd10328dab8bc746c9769102cce' class=''>compliance: false
+
+<br/></li><li id='temp:C:IPd8d25d782b0f82c19d1427a20d' class=''>event_type: question
+
+<br/></li><li id='temp:C:IPd1cab608aa435112b459e48f08' class=''>stream_event: insert or update ( this might not be required)
+
+<br/></li><li id='temp:C:IPd8f29904ce3d1ec1ef3b7538ed' class=''>question: question_id
+
+<br/></li></ul><li id='temp:C:IPdcdb239803d715fa56d9e8b5b8' class=''>Insert the record into notification center table (<b><u><span style="color:#218118" textcolor="#218118">t</span><span style="color:#37d629" textcolor="#37d629">bff2022_notification_centro)</span></u></b>
+
+<br/></li></ul></div><br/>
+
+<h4 id='temp:C:IPdbffc27938ffa109aa967bebc7'><span style="color:#37d629" textcolor="#37d629"><u>Schema for notification centro table (</u><b><u>tbff2022_notification_centro)</u></b></span></h4>
+
+<br>Primary index in notification center table: <br/>
+
+<br>Partition Key: cod_chav_patc : will store userid e.g.  uid123 <br/>
+
+<br/>
+
+Sort Key: cod_ordenar_chav: will be used to store event time and used in query for getting all notifications  e.g. all#123456789456    <br/>
+
+<br/>
+
+Local secondary index 1: will be used to store event and time and used in query for getting unread notifications e.g. unread#123456789456    <br/>
+
+Index Name:  (lsi1: xxnc_2022) :<br/>
+
+Attribute Name: status_ordenar<br/>
+
+<br/>
+
+Local Secondary index 2: will be used store event, status and time. This will be used in querying unread or read notifications of certain type (question or score). This is not currently required but can be used in future. e.g.  questiontype#unread#time <br/>
+
+Index Name: (lis2: xxnc_2022_v)  <br/>
+
+Attribute Name: tipo_ordenar<br>type_read_unread_time : read#time#score  or unread#time#score or read/unread#time#question <br/>
+
+<br/>
+
+Other attributes:<br/>
+
+entity: score or question<br/>
+
+question_id : PRRCON38  (only product entity event)<br>product_id: product_name  (only score event)<br>score_old: 45   (only score event)<br>score_new: 23  (only score event)<br>env: environment information  ( Both) <br/>
+
+<div data-section-style='13'><table id='temp:C:IPdb577799b883463cb78f2c4491' title='Sheet2' style='width: 38.9333em'><tbody><tr id='temp:C:IPdf25679a6fe19a2e389fa761a6'><td id='temp:s:temp:C:IPdf25679a6fe19a2e389fa761a6;temp:C:IPd3f39147e7988bc5bc12625a94' style=''>cod_chav_patc
+
+<br/></td><td id='temp:s:temp:C:IPdf25679a6fe19a2e389fa761a6;temp:C:IPd2ad8481be4665ead58900dfc2' style=''>cod_ordenar_chav
+
+<br/></td><td id='temp:s:temp:C:IPdf25679a6fe19a2e389fa761a6;temp:C:IPd3cd86f9d0d928943f570332b2' style=''>status_ordernar
+
+<br/></td><td id='temp:s:temp:C:IPdf25679a6fe19a2e389fa761a6;temp:C:IPd31b8c561e2633ffa9e4a65c0a' style=''>tipo_ordernar
+
+<br/></td><td id='temp:s:temp:C:IPdf25679a6fe19a2e389fa761a6;temp:C:IPd7931cbd74bb6f4971c0d7cec1' style=''>entity
+
+<br/></td><td id='temp:s:temp:C:IPdf25679a6fe19a2e389fa761a6;temp:C:IPd428b46f1eb102c038899e39f6' style=''>env
+
+<br/></td></tr><tr id='temp:C:IPd0c7bdee38e7e0c7d210fe60d6'><td id='temp:s:temp:C:IPd0c7bdee38e7e0c7d210fe60d6;temp:C:IPd3f39147e7988bc5bc12625a94' style=''>u1
+
+<br/></td><td id='temp:s:temp:C:IPd0c7bdee38e7e0c7d210fe60d6;temp:C:IPd2ad8481be4665ead58900dfc2' style=''>all#time
+
+<br/></td><td id='temp:s:temp:C:IPd0c7bdee38e7e0c7d210fe60d6;temp:C:IPd3cd86f9d0d928943f570332b2' style=''>unread#time
+
+<br/></td><td id='temp:s:temp:C:IPd0c7bdee38e7e0c7d210fe60d6;temp:C:IPd31b8c561e2633ffa9e4a65c0a' style=''>questiontype#unread#time
+
+<br/></td><td id='temp:s:temp:C:IPd0c7bdee38e7e0c7d210fe60d6;temp:C:IPd7931cbd74bb6f4971c0d7cec1' style=''>questionupdate
+
+<br/></td><td id='temp:s:temp:C:IPd0c7bdee38e7e0c7d210fe60d6;temp:C:IPd428b46f1eb102c038899e39f6' style=''>dev
+
+<br/></td></tr><tr id='temp:C:IPd44daefcbc6541c394c0ee6937'><td id='temp:s:temp:C:IPd44daefcbc6541c394c0ee6937;temp:C:IPd3f39147e7988bc5bc12625a94' style=''>u2 
+
+<br/></td><td id='temp:s:temp:C:IPd44daefcbc6541c394c0ee6937;temp:C:IPd2ad8481be4665ead58900dfc2' style=''>all#time
+
+<br/></td><td id='temp:s:temp:C:IPd44daefcbc6541c394c0ee6937;temp:C:IPd3cd86f9d0d928943f570332b2' style=''>unread#time
+
+<br/></td><td id='temp:s:temp:C:IPd44daefcbc6541c394c0ee6937;temp:C:IPd31b8c561e2633ffa9e4a65c0a' style=''>score#unread#time
+
+<br/></td><td id='temp:s:temp:C:IPd44daefcbc6541c394c0ee6937;temp:C:IPd7931cbd74bb6f4971c0d7cec1' style=''>scoreupdate
+
+<br/></td><td id='temp:s:temp:C:IPd44daefcbc6541c394c0ee6937;temp:C:IPd428b46f1eb102c038899e39f6' style=''>hom
+
+<br/></td></tr><tr id='temp:C:IPdd176c1b709ace1ca08c08e860'><td id='temp:s:temp:C:IPdd176c1b709ace1ca08c08e860;temp:C:IPd3f39147e7988bc5bc12625a94' style=''>u3 
+
+<br/></td><td id='temp:s:temp:C:IPdd176c1b709ace1ca08c08e860;temp:C:IPd2ad8481be4665ead58900dfc2' style=''>all#time
+
+<br/></td><td id='temp:s:temp:C:IPdd176c1b709ace1ca08c08e860;temp:C:IPd3cd86f9d0d928943f570332b2' style=''>unread#time
+
+<br/></td><td id='temp:s:temp:C:IPdd176c1b709ace1ca08c08e860;temp:C:IPd31b8c561e2633ffa9e4a65c0a' style=''>questiontype#unread#time
+
+<br/></td><td id='temp:s:temp:C:IPdd176c1b709ace1ca08c08e860;temp:C:IPd7931cbd74bb6f4971c0d7cec1' style=''>question
+
+<br/></td><td id='temp:s:temp:C:IPdd176c1b709ace1ca08c08e860;temp:C:IPd428b46f1eb102c038899e39f6' style=''>dev
+
+<br/></td></tr><tr id='temp:C:IPd2e9ba94649b46cfdfbe3ce2e7'><td id='temp:s:temp:C:IPd2e9ba94649b46cfdfbe3ce2e7;temp:C:IPd3f39147e7988bc5bc12625a94' style='text-align: center;'> after update opertaions(probably UI will return notifications viewed whcih will delete from the above partitions and insert new record) 
+
+<br/></td><td id='temp:s:temp:C:IPd2e9ba94649b46cfdfbe3ce2e7;temp:C:IPd2ad8481be4665ead58900dfc2' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd2e9ba94649b46cfdfbe3ce2e7;temp:C:IPd3cd86f9d0d928943f570332b2' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd2e9ba94649b46cfdfbe3ce2e7;temp:C:IPd31b8c561e2633ffa9e4a65c0a' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd2e9ba94649b46cfdfbe3ce2e7;temp:C:IPd7931cbd74bb6f4971c0d7cec1' style=''>
+
+<br/></td><td id='temp:s:temp:C:IPd2e9ba94649b46cfdfbe3ce2e7;temp:C:IPd428b46f1eb102c038899e39f6' style='text-align: center;'>
+
+<br/></td></tr><tr id='temp:C:IPd80cc7c3d94cf4912a1fa017af'><td id='temp:s:temp:C:IPd80cc7c3d94cf4912a1fa017af;temp:C:IPd3f39147e7988bc5bc12625a94' style=''>u1 
+
+<br/></td><td id='temp:s:temp:C:IPd80cc7c3d94cf4912a1fa017af;temp:C:IPd2ad8481be4665ead58900dfc2' style=''>all#timeofupdate
+
+<br/></td><td id='temp:s:temp:C:IPd80cc7c3d94cf4912a1fa017af;temp:C:IPd3cd86f9d0d928943f570332b2' style=''>read#time
+
+<br/></td><td id='temp:s:temp:C:IPd80cc7c3d94cf4912a1fa017af;temp:C:IPd31b8c561e2633ffa9e4a65c0a' style=''>questiontype#read#time
+
+<br/></td><td id='temp:s:temp:C:IPd80cc7c3d94cf4912a1fa017af;temp:C:IPd7931cbd74bb6f4971c0d7cec1' style=''>questionupdate
+
+<br/></td><td id='temp:s:temp:C:IPd80cc7c3d94cf4912a1fa017af;temp:C:IPd428b46f1eb102c038899e39f6' style=''>dev
+
+<br/></td></tr></tbody></table></div><br/>
+
+<u><b>CloudFormation Template for DynamoDB</b></u><br/>
+
+<br/>
+
+<pre id='temp:C:IPd15e253c93f4a1bda2c658f75c'><br>AWSTemplateFormatVersion: "2010-09-09"<br>Resources:<br>  dynamodbtable:<br>    Type: AWS::DynamoDB::Table<br>    Properties:<br>      AttributeDefinitions:<br>        - AttributeName: "cod_chav_patc"<br>          AttributeType: "S"<br>        - AttributeName: "cod_ordenar_chav"<br>          AttributeType: "S"<br>        - AttributeName: "status_ordenar"<br>          AttributeType: "S"<br>        - AttributeName: "tipo_ordenar"<br>          AttributeType: "S"<br>      KeySchema:<br>        - AttributeName: "cod_chav_patc"<br>          KeyType: "HASH"<br>        - AttributeName: "cod_ordenar_chav"<br>          KeyType: "RANGE"<br>      <code>BillingMode</code>: "<code>PAY_PER_REQUEST"</code><br>      TableName: "tbff2022_notification_centro"<br>      <code>SSEEnabled</code>: True<br>      LocalSecondaryIndexes:<br>        - IndexName: "xxnc_2022"<br>          KeySchema:<br>            - AttributeName: "cod_chav_patc"<br>              KeyType: "HASH"<br>            - AttributeName: "status_ordenar"<br>              KeyType: "RANGE"<br>          Projection:<br>            ProjectionType: "<code>ALL</code>"<br>        - IndexName: "xxnc_2022_v1"<br>          KeySchema:<br>            - AttributeName: "cod_chav_patc"<br>              KeyType: "HASH"<br>            - AttributeName: "tipo_ordenar"<br>              KeyType: "RANGE"<br>          Projection:<br>            ProjectionType: "ALL"<br>      Tags:<code>        </code><br><code>        </code><code>-</code><code> </code><code>Key</code><code>:</code><code> </code><code>"app"</code><br><code>          </code><code>Value</code><code>:</code><code> </code><code>"notificationcenter"</code></pre>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<h2 id='temp:C:IPd931c6343cf803ba7375f2d0bc'>2. Lambda: iuconfia_getnotification:</h2>
+
+This lambda retrieves notifications for user. There will be two types of notification retrieved. (All and Unread). The notifications have a paginated index that will be used to send a paginated list of notifications. The notifications will be sorted on time descending.<br/>
+
+<br/>
+
+This lambda is integrated with API Gateway<br/>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPdee7ec3a7dc53d2ca91cc3a240'><li id='temp:C:IPd08166200b55a6aac7d3c2fdf6' class='' value='1'>path: /notifications, method type Get,
+
+<br/></li><li id='temp:C:IPd004a01ce284be2e7b3d0079b0' class='parent'> parameters to be passed 
+
+<br/></li><ul><li id='temp:C:IPdade0937d6c714e0285b7faac3' class=''>userid=uid, 
+
+<br/></li><li id='temp:C:IPd99aab35fe682a8490411b62ac' class='parent'>lastitemretrieved= {json of item retrieved can be null for first request} ex : 
+
+<br/></li><ul><li id='temp:C:IPde4cf38c3f03321fb7adf1a7a8' class=''> <code>"LastEvaluatedKey":{"HashKeyElement":{"AttributeValue3":"S"},<br>                        "RangeKeyElement":{"AttributeValue4":"N"}   </code>
+
+<br/></li></ul><li id='temp:C:IPd7be2b2ff71d775e4055eef123' class=''> status = unread or read 
+
+<br/></li></ul></ul></div><br/>
+
+<i>Improvement, to give control of pagination size we can let user pass limit or size in request parameter, this value will be passed as Limit parameter in query api of DynamoDB. See below code example. <br></i><br/>
+
+<br/>
+
+Retrieve paginated list of notifications.<br/>
+
+<br/>
+
+For request parameter status= unread: <br/>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPddb1b5ef701f5814d41aa2c705'><li id='temp:C:IPd9c4284945de64c8c7a53a79cb' class='' value='1'>Query notification center table for first secondary index (xxnc_2022), begins with unread# sort in descending order with pagination enabled. (In code snippet listed below Limit decides pagination size)
+
+<br/></li><li id='temp:C:IPd23761f4082b26808e8dc38c77' class=''>Retrieve first set of paginated data using DynamoDB API call.  Query on secondary index begins with unread for user id u1.
+
+<br/></li><li id='temp:C:IPde10810062fb62c3487d18d409' class=''>For next pagination data, (next request to the API ) API will include LastItemRetrieved(map to LastEvaluatedKey) JSON value in request parameter. Logic in the code will check for LastEvaluatedKey value , if this is not null than proceed query for next page pass LastEvaluatedKey as ExclusiveStartKey in query API of dynamodb. We will be using the Pagination capability of DynamoDB APIs
+
+<br/></li><li id='temp:C:IPd8844c7397ae5034e4883ffd14' class=''>If LastEvaluatedKey is null, it will be termed as first request to notification API.
+
+<br/></li></ul></div><br/>
+
+For request parameter status = read: <br/>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPd7a62ec5ec58cce839e81c41c4'><li id='temp:C:IPd12a75cf92e4185f01c271e57f' class='' value='1'>Similarly same logic follows for status=read, only change would be query on secondary index (xxnc_2022), begins with read# sort in descending order. 
+
+<br/></li></ul></div><br/>
+
+For request parameter status = all (logic is similar to case status=read or unread but query is done on primary index)<br/>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPd2e9c9cd1bd01d571511905acc'><li id='temp:C:IPd9e422c73799c49b7afe7bf135' class='' value='1'>Query notification center table for primary index, begins with all# range key in descending order with pagination enabled. (In code snippet listed below Limit decides pagination size)
+
+<br/></li><li id='temp:C:IPdfbdc606fa8c904caebdeef1fc' class=''>Retrieve first set of paginated data using DynamoDB API call.  Query on secondary index begins with unread for user id u1.
+
+<br/></li><li id='temp:C:IPda4b5627c48b4b6135cdc9a870' class=''>For next pagination data, (next request to the API ) API will include LastItemRetrieved(map to LastEvaluatedKey) JSON value in request parameter. Logic in the code will check for LastEvaluatedKey value , if this is not null than proceed query for next page pass LastEvaluatedKey as ExclusiveStartKey in query API of dynamodb. We will be using the Pagination capability of DynamoDB APIs
+
+<br/></li><li id='temp:C:IPdf28810f350a82d08b86469132' class=''>If LastEvaluatedKey is null, it will be termed as first request to notification API.
+
+<br/></li></ul></div><br/>
+
+<b>Only For developer:</b><br/>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPd8aade50f7316940c887200df5'><ul><li id='temp:C:IPdd366398cc6ead8e2ae08a561f' class='' value='1'>#sample python code shows how we can use pagiantion <br>#Key is existing class <br>#Sample input to query<br>#This will be added in common code in Dynamodb module. <br><br>query(<br>TableName= "notification_centro",<br>IndexName ="local_secondary_index",<br>Limit=20,<br>ScanIndexForward=False,<br>KeyConditionsExpression=Key(partition_key).eq(partition_key_value)&amp;Key(range_key).begins_with("unread#")<br>)<br><br>#Response will give us lastkeyreturned this can be used for pagination for next request <br><br><br>#when we make second request , UI need to send us last key access we need to pass that in code to retrieve next paginated results<br>#we will pass ExclusiveStartKey <br><br><br>#Since we are using limit to get paginated data here ExclusiveStartKey values should be last item received 
+
+<br/></li></ul></ul></div><br/>
+
+Explanation of code: <br/>
+
+<br/>
+
+query secondary index of notification center begins with unread to retrieve all unread notification for user id. <br/>
+
+In the query  pass <code>ScanIndexForward: false, </code>this will sort the result in descending order <br/>
+
+<br/>
+
+ExclusiveStartKey is used to get next page results <br/>
+
+<br/>
+
+Limit is passed to set the page size <br/>
+
+<br/>
+
+<br/>
+
+<h4 id='temp:C:IPdc5868623ce1147f0548ee8098'><u><span style="color:#cc0300" textcolor="#cc0300">Pay load for apigateway</span><br></u></h4>
+
+<pre id='temp:C:IPde36f3e9f92e9c1ff92052f7f8'><u><b>Request:</b></u> <br>/notifications <br>Method: Get<br>Request Parameters:<br> user = uid <br> status = unread or read or all <br> lastiemtretreieved= {Json of last item retrieved or null}<br><br><u><b>Response:</b></u><br>response would be same either if lastevaluatedkey null or not null, this will be for pagination support if not null<br><br><span style="color:#218118" textcolor="#218118">[{</span><br>"user"<span style="color:#218118" textcolor="#218118">:"1213",</span><br>"<span style="color:#218118" textcolor="#218118">productid": "productname",</span><br>"question"<span style="color:#218118" textcolor="#218118">:</span><span style="color:#218118" textcolor="#218118"> "</span><span style="color:#218118" textcolor="#218118">if question type </span><span style="color:#218118" textcolor="#218118">return</span> question id<span style="color:#218118" textcolor="#218118">, null or empty for score"</span><span style="color:#218118" textcolor="#218118">,</span><br>"<span style="color:#218118" textcolor="#218118">type": "compliance or score",</span><br>"<span style="color:#218118" textcolor="#218118">old_score": "old score", # emtpy for question type</span><br><span style="color:#218118" textcolor="#218118">"new_score": "new score", # empty for question type <br>"compliance": "pending", # empty for score type<br>"env": "environment", # environment type dev, hom, prod, too.</span><br>"notification_identifier"<span style="color:#218118" textcolor="#218118">:</span> "all<span style="color:#218118" textcolor="#218118">#eventtime", # this is needed for UI to return during update notifications without any modifications</span><br><span style="color:#218118" textcolor="#218118">"LastEvaluatedKey" : {range_key: "uuid", sort_key: "lastitem_returned ie unread#time_in_nanonseconds"}</span><br><span style="color:#218118" textcolor="#218118">}, .... ]</span><br><br></pre>
+
+<u><b>Note: (FOR UI)</b></u><br/>
+
+<br/>
+
+notification_identifier &lt;all#time&gt;, this is very important JSON property.<br/>
+
+<br/>
+
+This will uniquely identify notification in notification center table.  <br/>
+
+UI should store this value temporarily, return as request body with userid to update status of notification that has been read by user.<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<h2 id='temp:C:IPdae57d1fdf3502e8041624afff'>3. Lambda: iuconfia_updatenotifications:</h2>
+
+This lambda will update notifications and will be Integrated with API Gateway <br/>
+
+<br/>
+
+API Gateway<br/>
+
+url: /notifications <br/>
+
+method: post<br/>
+
+Request Body:  [{user: uuid, notification_identifier: all#time}, ... {}]<br/>
+
+<br/>
+
+Here all#timeinnanonsecond is used to uniquely identify notification <br/>
+
+<br/>
+
+<pre id='temp:C:IPd53c5441d5b4a6e917d9a6707f'><b>Request:</b><br>url: /notifications<span style="color:#218118" textcolor="#218118"> </span><br>method: post<br>Body: <br><span style="color:#218118" textcolor="#218118">[{</span><br> "user"<span style="color:#218118" textcolor="#218118">:</span><span style="color:#218118" textcolor="#218118"> </span><span style="color:#218118" textcolor="#218118">“</span><span style="color:#218118" textcolor="#218118">uid</span><span style="color:#218118" textcolor="#218118">”,</span><br> "notification_identifier"<span style="color:#218118" textcolor="#218118">:</span><span style="color:#218118" textcolor="#218118"> </span><span style="color:#218118" textcolor="#218118">“</span><span style="color:#218118" textcolor="#218118">all</span><span style="color:#218118" textcolor="#218118">#time”</span><br><span style="color:#218118" textcolor="#218118">},</span><br><span style="color:#218118" textcolor="#218118">......</span><br><span style="color:#218118" textcolor="#218118">.....</span><br><span style="color:#218118" textcolor="#218118">]</span><br><br><u><b><span style="color:#218118" textcolor="#218118">Response</span><span style="color:#218118" textcolor="#218118">:</span><span style="color:#218118" textcolor="#218118"> </span></b></u><br><span style="color:#218118" textcolor="#218118">{</span><span style="color:#218118" textcolor="#218118">status</span><span style="color:#218118" textcolor="#218118">:</span><span style="color:#218118" textcolor="#218118"> </span><span style="color:#218118" textcolor="#218118">“</span><span style="color:#218118" textcolor="#218118">Update</span><span style="color:#218118" textcolor="#218118"> completed successfully</span><span style="color:#218118" textcolor="#218118">”}</span></pre>
+
+UI will send list of notifications already viewed as JSON list of user and notification identifier. <br/>
+
+<br/>
+
+Lambda will transform the request to match attribute of DynamoDB item:<br/>
+
+<br/>
+
+Transformation:<br/>
+
+user → cod_chav_patc <br/>
+
+notification_identifier → cod_ordenar_chav<br/>
+
+<br/>
+
+<br/>
+
+After transformation lambda will update notification center table <br/>
+
+<br/>
+
+During update notifications it will involve two steps we will use transactional feature of DynamoDB to perform update in notification center table.<br/>
+
+<br/>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPd33e347003d6a581a22716b06c'><li id='temp:C:IPd4dfa66f8ec25569911567b16c' class='' value='1'>First delete the item from the DynamoDB using uid and all#time 
+
+<br/></li><li id='temp:C:IPd7bb1fdc2143277d0908ccba7d' class=''>Insert new item to the DynamoDB using same uid and all#time and read#time , here we don't change the time we will preserve same time for all#time while for read#time we can update the time. 
+
+<br/></li><li id='temp:C:IPdacfccc76f8264c70a8827b32d' class=''>Use TransactItemWrite for above two operations * 
+
+<br/></li></ul></div><br/>
+
+<br/>
+
+<br/>
+
+<h2 id='temp:C:IPd0304586dcc723ad234039d723'>Questions (Discussed during design): </h2>
+
+Documentation for other consideration during design<br/>
+
+<div class="" data-section-style='5' style=""><ul id='temp:C:IPd7e99c27bd719d95e837d11a31'><li id='temp:C:IPd7f8419b870ee7ef67b9f22a2e' class='parent' value='1'>Do we need score for ALE or each environment ? 
+
+<br/></li><ul><li id='temp:C:IPd9fd0d60acf56fb66197bb4765' class=''>Not ALE. We just need for each environment (after talking with Gustavo from Itau)
+
+<br/></li></ul><li id='temp:C:IPd33a881d98652c220ebd65e9cf' class='parent'>Do we need score for each pillars or only ALL ?  
+
+<br/></li><ul><li id='temp:C:IPd4a608dee704ea8aae5bbe9ac4' class=''>Only ALL. We just need for Overall (after talking with Gustavo from Itau) 
+
+<br/></li></ul></ul></div><pre id='temp:C:IPd1fd6f2b7463bf456c1a7fcbe8'>Filters changes "cod_chav_filg":{"S": <code>[ { "anything-but": { "prefix": "ALE#" } } ]</code>},"cod_chav_filg_locl": { “S”: [{“prefix”: “LATEST#ALL#“}] }</pre>
+
+<div class="" data-section-style='5' style=""><ul id='temp:C:IPd4472616b29f1b4c2dcdd46d04'><li id='temp:C:IPd88e04ecd64ae5cd5295596639' class='' value='1'>If we put notifications_map in notifications centro table what would be 2nd LSI?  -<control data-remapped="true" id="temp:C:IPd972764c1e7c9be50e5c73ba48"><a href="https://quip-amazon.com/BWd9EA7j6hD">Pankaj Pattewar</a></control>, 
+
+<br/></li></ul></div>notifications-map will be in notification center table <br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<h2 id='temp:C:IPdf6166d33779283cee134cb3ff'><b>Tasks:</b></h2>
+
+Task 1: lambda <b>iuconfia_notificationeventcapture (80 hours)</b><br/>
+
+a. Write code for DynamoDB stream with appropriate filters. <a href="https://quip-amazon.com/MfI9AlhmXPpa/Design-on-Notification-Center#temp:C:IPd65746f26fca3fe778c2f7e9da">details see section a</a> of lambda <br/>
+
+b. get user information by querying notification map <br/>
+
+c. create notification in notification center see <a href="https://quip-amazon.com/MfI9AlhmXPpa/Design-on-Notification-Center#temp:C:IPd2e386e693a3d7a8c283cdb630">detail section c </a>of lambda <br/>
+
+Task 2: lambda iuconfia_getnotifications (40 hours)<br/>
+
+a. implement logic for getting notifications for the user provided in request parameter <br/>
+
+b. integrate with api gateway notifications get method <br/>
+
+Task 3: lambda iuconfia_updatenotifications (40 hours)<br/>
+
+a. implement logic to update notifications, update unread records and add read records using the hash and key range provided in request <br/>
+
+b. integrate with API gateway notifications post method <br/>
+
+Task 4: Create DynamoDB schema and repo (16 hours)<br/>
+
+Description: Create cloudformation for DynamoDB to hold notification center details. Schema is as provided to Mauro.<br/>
+
+<br/>
+
+Task 5: Create API gateway endpoints and integration (32 hours)<br/>
+
+Description: Create Get endpoint to retrieve all notifications for user. Parameterize the endpoint to return unread when asked by user.<br/>
+
+Task 6: Integration Testing - (24 hours)<br/>
+
+Description: Do end to end testing by sending score and question updates. <br/>
+
+<br/>
+
+Task 7: Getting notification Map - User-SupportGroup Info (Mauro)<br/>
+
+<br/>
+
+<br/>
+
+<h2 id='temp:C:IPd99540122a10bb5c0b7e6bffd1'>Discussion Items:</h2>
+
+<br/>
+
+*Enhancement to Current IUConfia functionality<br/>
+
+<div class="" data-section-style='6' style=""><ul id='temp:C:IPdd5286e1983764185b3810b1aa'><li id='temp:C:IPdd1f952531ce8458f999c5c99c' class='' value='1'>Deep Link to retrieve question details for multiple questions on a product
+
+<br/></li></ul></div>*Notification Map design: <br/>
+
+/ TO DO <br/>
+
+<br/>
+
+<h2 id='temp:C:IPddef3445c0d17e87a2b9be94dd'><b>FUTURE SCOPE:</b> </h2>
+
+<br/>
+
+</body></html>
